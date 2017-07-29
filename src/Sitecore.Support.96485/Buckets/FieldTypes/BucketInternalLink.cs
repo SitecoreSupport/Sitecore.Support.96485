@@ -59,7 +59,7 @@
                     Item item = this.GetContentDatabase().Items[args.Result];
                     if (item != null)
                     {
-                        if (this.Value != item.ID.ToString())
+                        if (this.ValueItemId != item.ID.ToString())
                         {
                             this.SetModified();
                         }
@@ -75,9 +75,8 @@
             else
             {
                 UrlString str = new UrlString("/sitecore/shell/Applications/Dialogs/Bucket Datasource Link.aspx");
-                string str2 = this.Value;
-                string str3 = this.Value;
-                Item item2 = this.GetContentDatabase().Items[str2];
+                string str3 = this.ValueItemId;
+                Item item2 = this.GetContentDatabase().Items[this.ValueItemId];
                 if (item2 != null)
                 {
                     str3 = item2.ID.ToString();
@@ -101,7 +100,7 @@
             Item item = this.GetContentDatabase().GetItem(result);
             if (item == null)
             {
-                if (this.Value != result)
+                if (this.ValueItemId != result)
                 {
                     this.SetModified();
                 }
@@ -109,7 +108,7 @@
             }
             else
             {
-                if (this.Value != item.ID.ToString())
+                if (this.ValueItemId != item.ID.ToString())
                 {
                     this.SetModified();
                 }

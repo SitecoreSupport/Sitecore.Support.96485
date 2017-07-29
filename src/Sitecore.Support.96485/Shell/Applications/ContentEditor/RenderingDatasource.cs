@@ -5,6 +5,7 @@
     using Sitecore.Data.Items;
     using Sitecore.Diagnostics;
     using Sitecore.Globalization;
+    using Sitecore.StringExtensions;
     using Sitecore.Pipelines;
     using Sitecore.Shell.Applications.ContentEditor;
     using Sitecore.Pipelines.GetRenderingDatasource;
@@ -18,6 +19,15 @@
         private const string BrowseDatasourceCommand = "contentrenderingdatasource:browse";
         private const string ClearDatasourceCommand = "contentrenderingdatasource:clear";
 
+        protected string ValueItemId {
+            get {
+                return base.GetViewStateString("ValueItemId");
+            }
+            set {
+                base.SetViewStateString("ValueItemId", value);
+            }
+        }
+
         public RenderingDatasource()
         {
             this.Class = "scContentControl";
@@ -26,7 +36,7 @@
 
         public string GetValue()
         {
-            Item item = this.ContentDatabase.GetItem(this.Value);
+            Item item = this.ContentDatabase.GetItem(this.ValueItemId);
             return item?.ID.ToString();
         }
 
@@ -48,7 +58,7 @@
                     Sitecore.Context.ClientPage.Start(this, "SelectDatasource");
                     return;
                 }
-                if (this.Value.Length > 0)
+                if (this.ValueItemId.Length > 0)
                 {
                     this.SetModified();
                 }
@@ -92,7 +102,7 @@
             Item item = this.ContentDatabase.GetItem(result);
             if (item == null)
             {
-                if (!string.IsNullOrEmpty(this.Value))
+                if (!string.IsNullOrEmpty(this.ValueItemId))
                 {
                     this.SetModified();
                 }
@@ -101,7 +111,7 @@
             }
             else
             {
-                if (this.Value != item.ID.ToString())
+                if (this.ValueItemId != item.ID.ToString())
                 {
                     this.SetModified();
                 }
@@ -112,7 +122,13 @@
         public void SetValue(string value)
         {
             Item item = this.ContentDatabase.GetItem(value);
-            this.Value = (item != null) ? item.ID.ToString() : value;
+            if ( item == null )
+            {
+                this.Value = value;
+            } else {
+                this.Value = "{0} [ID:'{1}']".FormatWith(item.Paths.FullPath, item.ID.ToString());
+            }
+            this.ValueItemId = (item != null) ? item.ID.ToString() : value;
         }
 
         private void ShowDialog(ClientPipelineArgs args)
@@ -126,7 +142,6 @@
             else
             {
                 Item contentItem = this.ContentItem;
-                string str = this.Value;
                 GetRenderingDatasourceArgs args3 = new GetRenderingDatasourceArgs(renderingItem);
                 List<Item> list = new List<Item> {
                     this.ContentDatabase.GetRootItem()
@@ -135,7 +150,7 @@
                 args3.ContentLanguage = contentItem?.Language;
                 args3.ContextItemPath = (contentItem != null) ? contentItem.Paths.FullPath : string.Empty;
                 args3.ShowDialogIfDatasourceSetOnRenderingItem = true;
-                args3.CurrentDatasource = str;
+                args3.CurrentDatasource = this.ValueItemId;
                 GetRenderingDatasourceArgs args2 = args3;
                 CorePipeline.Run("getRenderingDatasource", args2);
                 if (string.IsNullOrEmpty(args2.DialogUrl))
