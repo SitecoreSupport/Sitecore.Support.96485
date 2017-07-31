@@ -56,18 +56,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buckets\FieldTypes\BucketInternalLink.cs" />
-    <Compile Include="Pipelines\Loader\VerifyDeployment96485.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shell\Applications\ContentEditor\RenderingDatasource.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Include\zzz\Sitecore.Support.96485.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <None Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Config\Include\zzz\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
