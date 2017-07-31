@@ -12,8 +12,10 @@
 
     public class BucketInternalLink : Sitecore.Support.Shell.Applications.ContentEditor.RenderingDatasource
     {
-        protected virtual Database GetContentDatabase() =>
-            Client.ContentDatabase;
+        protected virtual Database GetContentDatabase()
+        {
+           return Client.ContentDatabase;
+        }
 
         public override void HandleMessage(Message message)
         {
@@ -118,8 +120,10 @@
 
         public string Source
         {
-            get =>
-                base.GetViewStateString("Source");
+            get
+            {
+                return base.GetViewStateString("Source");
+            }
             set
             {
                 string str = MainUtil.UnmapPath(value);

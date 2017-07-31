@@ -165,8 +165,13 @@
             }
         }
 
-        private Database ContentDatabase =>
-            Client.ContentDatabase;
+        private Database ContentDatabase
+        {
+            get
+            {
+                return Client.ContentDatabase;
+            }
+        }
 
         private Item ContentItem
         {
@@ -193,8 +198,10 @@
 
         public string ItemID
         {
-            get =>
-                base.GetViewStateString("ItemID");
+            get
+            {
+                return base.GetViewStateString("ItemID");
+            }
             set
             {
                 Assert.ArgumentNotNull(value, "value");
@@ -204,8 +211,10 @@
 
         public string ItemLanguage
         {
-            get =>
-                base.GetViewStateString("ItemLanguage");
+            get
+            {
+                return base.GetViewStateString("ItemLanguage");
+            }
             set
             {
                 Assert.ArgumentNotNull(value, "value");
