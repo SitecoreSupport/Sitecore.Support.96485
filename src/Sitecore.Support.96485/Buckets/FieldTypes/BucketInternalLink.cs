@@ -25,14 +25,9 @@
             {
                 return;
             }
-            string str2 = str;
-            if (str2 == null)
+            if (str != "contentExtension:pastequery")
             {
-                return;
-            }
-            if (str2 != "contentExtension:pastequery")
-            {
-                if (str2 != "contentExtension:buildquery")
+                if (str != "contentExtension:buildquery")
                 {
                     return;
                 }
@@ -93,28 +88,6 @@
                 str.Append("sc_content", Sitecore.Context.ContentDatabase.Name);
                 SheerResponse.ShowModalDialog(str.ToString(), "1200", "600", string.Empty, true);
                 args.WaitForPostBack();
-            }
-        }
-
-        protected override void SetResultValue(string result)
-        {
-            Assert.ArgumentNotNullOrEmpty(result, "result");
-            Item item = this.GetContentDatabase().GetItem(result);
-            if (item == null)
-            {
-                if (this.ValueItemId != result)
-                {
-                    this.SetModified();
-                }
-                this.SetValue(result);
-            }
-            else
-            {
-                if (this.ValueItemId != item.ID.ToString())
-                {
-                    this.SetModified();
-                }
-                this.SetValue(item.ID.ToString());
             }
         }
 
